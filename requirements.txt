@@ -1,0 +1,4 @@
+dlib
+matplotlib
+mediapipe
+opencv-contrib-python
