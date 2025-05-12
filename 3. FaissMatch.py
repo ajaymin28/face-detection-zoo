@@ -9,7 +9,6 @@ from utils.Embedder import FaceEmbedder
 import uuid
 
 # Load once on startup
-# gallery_path = None
 fe = FaceEmbedder()
 cache_features_np = None
 cache_filenames = None
@@ -17,18 +16,8 @@ cache_filenames = None
 def load_cache(gallery_path, load_pickle, cache_file_name, pr=gr.Progress(track_tqdm=True)):
     global cache_features_np, cache_filenames,index
 
-    # cache = fe.build_embedding_cache(gallery_path, load_pickle=load_pickle, cache_file_name=cache_file_name)
-
     features, filenames = [], []
-    # progress_updates = []
 
-    # def progress_callback(current, total):
-    #     msg = f"Processing {current}/{total} images..."
-    #     print(msg)
-    #     # progress_updates.append(msg)
-    #     yield msg
-
-    
     yield "Starting cache loading..."
 
     cache = fe.build_embedding_cache(
@@ -130,23 +119,7 @@ def find_similar_faces(gallery_path_, image, threshold=0.1):
 import gradio as gr
 
 
-
-# # Gradio UI
-# iface = gr.Interface(
-#     fn=find_similar_faces,
-#     inputs=[
-#         gr.Image(type="pil", label="Upload Query Image", height=512, width=512),
-#         gr.Slider(0.0, 1.0, value=0.1, label="Similarity Threshold"),
-#     ],
-#     outputs=[
-#         gr.Gallery(label="Matching Images", columns=4, height="auto"),
-#         gr.Textbox(label="Status")
-#     ],
-#     title="FAISS Finder/Commence Match",
-#     description="Upload a face image to find visually similar matches from a gallery using FAISS."
-# )
 # ---------- UI ----------
-
 if __name__ == "__main__":
     with gr.Blocks(title="FaissFinder | Commence Match", theme=gr.themes.Soft()) as demo:
         gr.Markdown("## 🔍 FaissFinder: AI-Powered Face Search (Commence Match)")
@@ -187,35 +160,3 @@ if __name__ == "__main__":
         )
 
     demo.launch()
-
-
-# if __name__ == "__main__":
-#     with gr.Blocks(title="FaissFinder/Commence Match", theme=gr.themes.Soft()) as demo:
-#         gr.Markdown("## 🎯 FaissFinder: AI-Powered Face Search")
-#         gr.Markdown("Upload a face image to find similar faces across your personal gallery using fast FAISS search and smart embeddings.")
-
-
-#         with gr.Row():
-#             gallery_path_gadget = gr.Textbox(label="Gallery Path", value="E:\\Photos\\UCF Graduation")
-#             cache_file_name = gr.Textbox(label="Cache File Name", value="face_embedding_cache.pkl")
-#             load_pickle = gr.Checkbox(label="Load Pickle", value=True)
-#             cache_status = gr.Textbox(label="Status")
-
-#         load_button = gr.Button("Load Cache")
-#         load_button.click(load_cache, inputs=[gallery_path_gadget, load_pickle, cache_file_name], outputs=cache_status, show_progress=True)
-
-#         with gr.Row():
-#             query_image = gr.Image(type="pil", label="Upload Query Image" , height=256, width=256)
-#             threshold = gr.Slider(0.0, 1.0, value=0.1, label="Similarity Threshold")
-            
-#         search_button = gr.Button("Find Similar Faces")
-#         status_text = gr.Textbox(label="Result Info")
-#         output_gallery = gr.Gallery(label="Matching Images", columns=4, height="auto")
-        
-
-#         search_button.click(find_similar_faces, inputs=[gallery_path_gadget,query_image, threshold], outputs=[output_gallery, status_text])
-
-#     demo.launch()
-
-
-    # iface.launch()
