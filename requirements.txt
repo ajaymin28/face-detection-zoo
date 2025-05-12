@@ -2,3 +2,7 @@ dlib
 matplotlib
 mediapipe
 opencv-contrib-python
+gradio
+faiss-cpu
+insightface
+ultralytics
